@@ -1,9 +1,9 @@
-# Boink
-Boink is a simple Go client application that can handle stopping and starting Kubernetes `Deployments`.
-It works by selecting `Deployments` based on labels.  It can also remember the previous known replicas, unlike a standard `kubectl scale` command where you need to specify the replicas manually.
+# ApplicationScaler
+ApplicationScaler (Boink) is a simple Go client application that can handle stopping and starting Kubernetes `Deployments` and `StatefulSets`.
+It works by selecting `Deployments` and `StatefulSets` based on labels.  It can also remember the previous known replicas, unlike a standard `kubectl scale` command where you need to specify the replicas manually.
 
 This tool can be helpful when you have certain applications which needs to be stopped during certain period of time.
-Pair this tool with kubernetes `CronJob` to automatically stop or start a `Deployment`
+Pair this tool with kubernetes `CronJob` to automatically stop or start a `Deployment` or `StatefulSet`
 
 
 ## How to run the application
@@ -18,11 +18,11 @@ Pair this tool with kubernetes `CronJob` to automatically stop or start a `Deplo
 
     To Stop:
 
-       boink --config $KUBECONFIG --namespace test --label app=nginx --action stop
+       applicationScaler --config $KUBECONFIG --namespace test --label app=nginx --action stop
 
     To Start:
         
-       boink --config $KUBECONFIG --namespace test --label app=nginx --action start
+       applicationScaler --config $KUBECONFIG --namespace test --label app=nginx --action start
 
 2.  In cluster
 
@@ -34,42 +34,43 @@ Pair this tool with kubernetes `CronJob` to automatically stop or start a `Deplo
     apiVersion: v1
     kind: ServiceAccount
     metadata:
-      name: boink
+      name: applicationScaler
       namespace: test
     ```
 
-    2. Create the `ClusterRole`
+    2. Create the `Role`
 
     ```
     apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRole
+    kind: Role
     metadata:
-    name: boink
+      name: applicationScaler
+      namespace: test
     rules:
     - apiGroups: ["extensions","apps"]
-    resources: ["deployments"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+      resources: ["deployments","statefulsets"]
+      verbs: ["get", "list", "update"]
 
     ```
 
-    3.  Bind the Cluster role with the service account
+    3.  Bind the Role with the service account
 
     ```
     apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding
+    kind: RoleBinding
     metadata:
-        name: boink        
+        name: applicationScaler 
+        namespace: test       
     roleRef:
       apiGroup: rbac.authorization.k8s.io
-      kind: ClusterRole
-      name: boink
+      kind: Role
+      name: applicationScaler
     subjects:
     - kind: ServiceAccount
-      name: boink
-      namespace: test
+      name: applicationScaler
     ```
 
-    4.  Create the `CronJob`, Stop `Deployment` with label `app=nginx` every  minute.
+    4.  Create the `CronJob`, Stop `Deployment` or `StatefulSet` with label `app=nginx`.
 
     ```
     apiVersion: batch/v1beta1
@@ -86,11 +87,11 @@ Pair this tool with kubernetes `CronJob` to automatically stop or start a `Deplo
         spec:      
           template:
             spec:
-              serviceAccountName: boink
+              serviceAccountName: applicationScaler
               containers:
-              - name: boink
-                image: boink:1.0
-                command: ["/boink"]
+              - name: applicationScaler
+                image: applicationScaler:1.0
+                command: ["/applicationScaler"]
                 args: ["--namespace","test", "--label", "app=nginx", "--action" , "start"]
               restartPolicy: OnFailure
     ```
@@ -112,7 +113,7 @@ Check the `go.mod` to see all the dependencies.
 3. Update all the dependencies using `dep ensure` to update all the dependencies.
 4. Do `go build`
 5. Do `go test ./... -cover` to run unit test with code coverage.
-6. Finally to run the application `boink --config &KUBECONFIG --namespace test --label app=nginx --action stop`.  
+6. Finally to run the application `applicationScaler --config &KUBECONFIG --namespace test --label app=nginx --action stop`.  
 
 
 If you are using skaffold, there is `skaffold.yaml` included at the root of the project.  Simply do a `skaffold dev` from the `$GOPATH/src/boink` and you are good to go.

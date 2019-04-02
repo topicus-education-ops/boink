@@ -14,13 +14,10 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "boink",
-	Short: "Boink is a helper command to stop and start Kubernetes Deployments.",
-	Long: `Boink is a helper command to stop and start Kubernetes Deployments.
+	Use:   "applicationScaler",
+	Short: "ApplicationScaler is a helper command to stop and start Kubernetes Deployments and statefulSets.",
+	Long: `ApplicationScaler is a helper command to stop and start Kubernetes Deployments and statefulSets.
 	       It can remember previous scale settings prior to stopping.`,
-	// Run: func(cmd *cobra.Command, args []string) {
-	// 	// Do Stuff Here
-	// },
 }
 
 var Clientset *kubernetes.Clientset
@@ -37,15 +34,13 @@ func init() {
 
 	// Output to stdout instead of the default stderr, could also be a file.
 	logrus.SetOutput(os.Stdout)
-
-	// Only log the warning severity or above.
 	logrus.SetLevel(logrus.DebugLevel)
 
 	rootCmd.PersistentFlags().StringVarP(&PathToConfig, "config", "c", "", "config file (default is $KUBECONFIG)")
 
-	rootCmd.PersistentFlags().StringVarP(&Namespace, "namespace", "n", "default", "The namespace where boink will look for the deployments.")
+	rootCmd.PersistentFlags().StringVarP(&Namespace, "namespace", "n", "default", "The namespace where boink will look for the deployments and statefulSets.")
 
-	rootCmd.PersistentFlags().StringVarP(&Selectors, "label", "l", "default", "The filter deployments based on kubernetes selector")
+	rootCmd.PersistentFlags().StringVarP(&Selectors, "label", "l", "default", "The filter deployments and statefulSets based on kubernetes selector")
 
 }
 
@@ -94,4 +89,26 @@ func getDeployments() (*v1.DeploymentList, error) {
 	}
 
 	return deployments, nil
+}
+
+func getStatefulSets() (*v1.StatefulSetList, error) {
+	statefulSetClient := Clientset.AppsV1().StatefulSets(Namespace)
+	var listOptions metav1.ListOptions
+
+	if Selectors != "" {
+		listOptions = metav1.ListOptions{
+			LabelSelector: Selectors,
+			Limit:         100,
+		}
+
+	} else {
+		listOptions = metav1.ListOptions{}
+	}
+	statefulSets, err := statefulSetClient.List(listOptions)
+	if err != nil {
+		logrus.Warnf("Failed to find statefulSets: %v", err)
+		return nil, err
+	}
+
+	return statefulSets, nil
 }

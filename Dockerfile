@@ -1,7 +1,7 @@
-FROM golang:1.10
+FROM golang:1.12
 
 # Download and install the latest release of dep
-ADD https://github.com/golang/dep/releases/download/v0.5.0/dep-linux-amd64 /usr/bin/dep
+ADD https://github.com/golang/dep/releases/download/v0.5.1/dep-linux-amd64 /usr/bin/dep
 RUN chmod +x /usr/bin/dep
 
 # Copy the code from the host and compile it

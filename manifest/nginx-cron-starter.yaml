@@ -12,10 +12,10 @@ spec:
     spec:      
       template:
         spec:
-          serviceAccountName: boink
+          serviceAccountName: applicationScaler
           containers:
-          - name: boink
-            image: boink
-            command: ["/boink"]
+          - name: applicationScaler
+            image: applicationScaler
+            command: ["/applicationScaler"]
             args: ["--namespace","test", "--label", "app=nginx", "--action" , "start"]
           restartPolicy: OnFailure
