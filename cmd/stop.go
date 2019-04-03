@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"boink/handler"
+	"github.com/topicus-education-ops/boink/handler"
 	"fmt"
 
 	"github.com/spf13/cobra"

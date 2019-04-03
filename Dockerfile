@@ -5,11 +5,13 @@ ADD https://github.com/golang/dep/releases/download/v0.5.1/dep-linux-amd64 /usr/
 RUN chmod +x /usr/bin/dep
 
 # Copy the code from the host and compile it
-WORKDIR $GOPATH/src/boink
+WORKDIR $GOPATH/src/github.com/topicus-education-ops/boink
 COPY Gopkg.toml Gopkg.lock ./
 RUN dep ensure --vendor-only
 
 COPY main.go ./
+
+COPY cmd/* cmd/
 
 COPY handler/* handler/
 
