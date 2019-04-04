@@ -146,16 +146,16 @@
   version = "v2.2.2"
 
 [[projects]]
-  branch = "master"
+  branch = "release-1.14"
   name = "k8s.io/api"
   packages = ["admissionregistration/v1beta1","apps/v1","apps/v1beta1","apps/v1beta2","auditregistration/v1alpha1","authentication/v1","authentication/v1beta1","authorization/v1","authorization/v1beta1","autoscaling/v1","autoscaling/v2beta1","autoscaling/v2beta2","batch/v1","batch/v1beta1","batch/v2alpha1","certificates/v1beta1","coordination/v1","coordination/v1beta1","core/v1","events/v1beta1","extensions/v1beta1","networking/v1","networking/v1beta1","node/v1alpha1","node/v1beta1","policy/v1beta1","rbac/v1","rbac/v1alpha1","rbac/v1beta1","scheduling/v1","scheduling/v1alpha1","scheduling/v1beta1","settings/v1alpha1","storage/v1","storage/v1alpha1","storage/v1beta1"]
-  revision = "92d2ee7fc726fd16632fbd2dff1466f551f5b8b4"
+  revision = "40a48860b5abbba9aa891b02b32da429b08d96a0"
 
 [[projects]]
-  branch = "master"
+  branch = "release-1.14"
   name = "k8s.io/apimachinery"
   packages = ["pkg/api/errors","pkg/api/meta","pkg/api/resource","pkg/apis/meta/v1","pkg/apis/meta/v1/unstructured","pkg/apis/meta/v1beta1","pkg/conversion","pkg/conversion/queryparams","pkg/fields","pkg/labels","pkg/runtime","pkg/runtime/schema","pkg/runtime/serializer","pkg/runtime/serializer/json","pkg/runtime/serializer/protobuf","pkg/runtime/serializer/recognizer","pkg/runtime/serializer/streaming","pkg/runtime/serializer/versioning","pkg/selection","pkg/types","pkg/util/clock","pkg/util/errors","pkg/util/framer","pkg/util/intstr","pkg/util/json","pkg/util/mergepatch","pkg/util/naming","pkg/util/net","pkg/util/runtime","pkg/util/sets","pkg/util/strategicpatch","pkg/util/validation","pkg/util/validation/field","pkg/util/wait","pkg/util/yaml","pkg/version","pkg/watch","third_party/forked/golang/json","third_party/forked/golang/reflect"]
-  revision = "10bf64c7018d1bf6b021767df5126dec74b08010"
+  revision = "d7deff9243b165ee192f5551710ea4285dcfd615"
 
 [[projects]]
   name = "k8s.io/client-go"
@@ -190,6 +190,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "0841583ad876a92edaa7e71a198748b3b1c98258c7accfa5e6937f92997289b6"
+  inputs-digest = "2dc98c4171062730820fed79a8e5ca6977f4c4623ab550ade4b72c29c3d9d258"
   solver-name = "gps-cdcl"
   solver-version = 1
