@@ -68,6 +68,7 @@ Pair this tool with kubernetes `CronJob` to automatically stop or start a `Deplo
     subjects:
     - kind: ServiceAccount
       name: applicationScaler
+      namespace: test
     ```
 
     4.  Create the `CronJob`, Stop `Deployment` or `StatefulSet` with label `app=nginx`.
