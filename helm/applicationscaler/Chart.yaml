@@ -1,0 +1,11 @@
+name: applicationscaler
+version: 0.0.1
+appVersion: latest
+description: 
+keywords:
+  - applicationscaler
+  - stop
+  - start
+sources:
+  - https://github.com/topicusonderwijs/
+engine: gotpl
