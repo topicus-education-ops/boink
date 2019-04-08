@@ -69,6 +69,24 @@ func TestHandleDeploymentScaleDown(t *testing.T) {
 
 }
 
+func TestHandleDeploymentScaleDownNoAnnotations(t *testing.T) {
+	// Create the fake client.
+	client := fake.NewSimpleClientset()
+
+	//deploymentsClient := client.AppsV1().Deployments(corev1.NamespaceDefault)
+
+	deploymentClient := client.AppsV1().Deployments("default")
+	deployment := createDeployment(2, nil)
+	_, err := deploymentClient.Create(deployment)
+
+	if err != nil {
+		t.Error("failed test.")
+	}
+
+	HandleDeployment(*deployment, deploymentClient, "stop")
+
+}
+
 func TestHandleDeploymentScaleDownTwice(t *testing.T) {
 	// Create the fake client.
 	client := fake.NewSimpleClientset()

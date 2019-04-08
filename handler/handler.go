@@ -5,7 +5,7 @@ import (
 
 	"github.com/Sirupsen/logrus"
 	appsv1 "k8s.io/api/apps/v1"
-	"k8s.io/client-go/kubernetes/typed/apps/v1"
+	v1 "k8s.io/client-go/kubernetes/typed/apps/v1"
 )
 
 const targetReplicasAnnotation string = "applicationScaler.io/target-replicas"
@@ -28,6 +28,10 @@ func scaleDeploymentToZero(deployment appsv1.Deployment, deploymentClient v1.Dep
 	if *deployment.Spec.Replicas > int32(0) {
 		logrus.Infof("Deployment (%s) has the annotation scaling to zero", deployment.ObjectMeta.Name)
 		replicas := deployment.Spec.Replicas
+		//Not all statefulSet have annotations
+		if deployment.ObjectMeta.Annotations == nil {
+			deployment.ObjectMeta.Annotations = make(map[string]string)
+		}
 		deployment.ObjectMeta.Annotations[targetReplicasAnnotation] = strconv.Itoa(int(*replicas))
 		deployment.Spec.Replicas = int32Ptr(0)
 		deploymentClient.Update(&deployment)
@@ -75,6 +79,10 @@ func scaleToStatefulSetZero(statefulSet appsv1.StatefulSet, statefulSetClient v1
 	if *statefulSet.Spec.Replicas > int32(0) {
 		logrus.Infof("StatefulSet (%s) has the annotation scaling to zero", statefulSet.ObjectMeta.Name)
 		replicas := statefulSet.Spec.Replicas
+		//Not all statefulSet have annotations
+		if statefulSet.ObjectMeta.Annotations == nil {
+			statefulSet.ObjectMeta.Annotations = make(map[string]string)
+		}
 		statefulSet.ObjectMeta.Annotations[targetReplicasAnnotation] = strconv.Itoa(int(*replicas))
 		statefulSet.Spec.Replicas = int32Ptr(0)
 		statefulSetClient.Update(&statefulSet)
