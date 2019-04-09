@@ -11,12 +11,13 @@ node() {
 	def img = dockerfile.build {
 		registry = 'docker.topicusonderwijs.nl'
 		name = 'applicationscaler'
-		tag = '1.0.0'
 	}
 	
 	dockerfile.publish {
 		image = img
 		baseTag = false
+		latestTag = false
+		tags = [ "1.0.0" ]
 	}
 }
 
