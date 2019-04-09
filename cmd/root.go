@@ -66,10 +66,12 @@ func getClient() (*kubernetes.Clientset, error) {
 	if err != nil {
 		return nil, err
 	}
+	logrus.Info("Returning cluster config")
 	return kubernetes.NewForConfig(config)
 }
 
 func getDeployments() (*v1.DeploymentList, error) {
+	logrus.Info("Calling getDeployments()")
 	deploymentClient := Clientset.AppsV1().Deployments(Namespace)
 	var listOptions metav1.ListOptions
 
@@ -82,16 +84,19 @@ func getDeployments() (*v1.DeploymentList, error) {
 	} else {
 		listOptions = metav1.ListOptions{}
 	}
+	logrus.Info("Getting deployments")
 	deployments, err := deploymentClient.List(listOptions)
 	if err != nil {
 		logrus.Warnf("Failed to find deployments: %v", err)
 		return nil, err
 	}
 
+	logrus.Info("Returning deployments")
 	return deployments, nil
 }
 
 func getStatefulSets() (*v1.StatefulSetList, error) {
+	logrus.Info("Calling getStatefulSets()")
 	statefulSetClient := Clientset.AppsV1().StatefulSets(Namespace)
 	var listOptions metav1.ListOptions
 
@@ -104,11 +109,13 @@ func getStatefulSets() (*v1.StatefulSetList, error) {
 	} else {
 		listOptions = metav1.ListOptions{}
 	}
+	logrus.Info("Getting statefulSets")
 	statefulSets, err := statefulSetClient.List(listOptions)
 	if err != nil {
 		logrus.Warnf("Failed to find statefulSets: %v", err)
 		return nil, err
 	}
 
+	logrus.Info("Returning statefulSets")
 	return statefulSets, nil
 }

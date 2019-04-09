@@ -28,7 +28,7 @@ func scaleDeploymentToZero(deployment appsv1.Deployment, deploymentClient v1.Dep
 	if *deployment.Spec.Replicas > int32(0) {
 		logrus.Infof("Deployment (%s) has the annotation scaling to zero", deployment.ObjectMeta.Name)
 		replicas := deployment.Spec.Replicas
-		//Not all statefulSet have annotations
+		//Not all deployments have annotations
 		if deployment.ObjectMeta.Annotations == nil {
 			deployment.ObjectMeta.Annotations = make(map[string]string)
 		}
@@ -79,7 +79,7 @@ func scaleToStatefulSetZero(statefulSet appsv1.StatefulSet, statefulSetClient v1
 	if *statefulSet.Spec.Replicas > int32(0) {
 		logrus.Infof("StatefulSet (%s) has the annotation scaling to zero", statefulSet.ObjectMeta.Name)
 		replicas := statefulSet.Spec.Replicas
-		//Not all statefulSet have annotations
+		//Not all statefulSets have annotations
 		if statefulSet.ObjectMeta.Annotations == nil {
 			statefulSet.ObjectMeta.Annotations = make(map[string]string)
 		}
