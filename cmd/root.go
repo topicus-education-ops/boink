@@ -14,9 +14,9 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "applicationScaler",
-	Short: "ApplicationScaler is a helper command to stop and start Kubernetes Deployments and statefulSets.",
-	Long: `ApplicationScaler is a helper command to stop and start Kubernetes Deployments and statefulSets.
+	Use:   "boink",
+	Short: "Boink is a helper command to stop and start Kubernetes Deployments and statefulSets.",
+	Long: `Boink is a helper command to stop and start Kubernetes Deployments and statefulSets.
 	       It can remember previous scale settings prior to stopping.`,
 }
 
