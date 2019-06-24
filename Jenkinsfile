@@ -9,11 +9,11 @@ node() {
 	dockerfile.validate { }
 
 	def img = dockerfile.build {
-		registry = 'docker.topicusonderwijs.nl'
 		name = 'applicationscaler'
 	}
 	
 	dockerfile.publish {
+		registry = 'docker.topicusonderwijs.nl'
 		image = img
 		baseTag = false
 		latestTag = false
