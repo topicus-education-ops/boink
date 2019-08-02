@@ -1,18 +1,18 @@
-FROM golang:1.12
-
-# Download and install the latest release of dep
-ADD https://github.com/golang/dep/releases/download/v0.5.1/dep-linux-amd64 /usr/bin/dep
-RUN chmod +x /usr/bin/dep
-
-# Copy the code from the host and compile it
+FROM golang:1 AS build-env
+RUN curl -Ss https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 WORKDIR /go/src/github.com/topicus-education-ops/boink
-COPY Gopkg.toml Gopkg.lock ./
-RUN dep ensure --vendor-only
-
-COPY main.go ./
-
+COPY Gopkg.* main.go ./
 COPY cmd/* cmd/
-
 COPY handler/* handler/
 
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix nocgo -o /boink .
+RUN dep ensure -v -vendor-only
+RUN go build -v .
+RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o bin/boink
+
+
+FROM alpine:3.8
+
+COPY --from=build-env /go/src/github.com/topicus-education-ops/boink/bin/boink /usr/local/bin
+
+CMD ["boink"]
+

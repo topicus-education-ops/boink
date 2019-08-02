@@ -17,7 +17,7 @@ node() {
 		image = img
 		baseTag = false
 		latestTag = false
-		tags = [ "1.0.0" ]
+		tags = [ "1.0.1" ]
 	}
 }
 
