@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/topicus-education-ops/boink/cmd"
+	"github.com/topicusonderwijs/boink/cmd"
 )
 
 func main() {

@@ -1,8 +1,9 @@
 package cmd
 
 import (
-	"github.com/topicus-education-ops/boink/handler"
 	"fmt"
+
+	"github.com/topicusonderwijs/boink/handler"
 
 	"github.com/spf13/cobra"
 	"k8s.io/client-go/util/retry"
