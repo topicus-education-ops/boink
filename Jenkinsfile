@@ -13,11 +13,11 @@ node() {
 	}
 	
 	dockerfile.publish {
-		registry = 'docker.topicusonderwijs.nl'
 		image = img
 		baseTag = false
 		latestTag = false
 		tags = [ "1.0.1" ]
+    distribute = true
 	}
 }
 
