@@ -1,4 +1,4 @@
-FROM golang:1 AS build-env
+FROM golang:1.15 AS build-env
 RUN curl -Ss https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 WORKDIR /go/src/github.com/topicusonderwijs/boink
 COPY Gopkg.* main.go ./
